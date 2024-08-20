@@ -27,7 +27,10 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3456;
 
-const corsWebAllow = ["http://localhost:3000"];
+const corsWebAllow = [
+  "http://localhost:3000",
+  "https://trello-clone-anhuong541.vercel.app",
+];
 
 const corsOptions = {
   origin: corsWebAllow,
