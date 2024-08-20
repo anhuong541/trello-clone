@@ -4,7 +4,7 @@ import {
   createOrSetTask,
   getUpdateProjectDueTime,
 } from "../../../lib/firebase-func";
-import { readUserIdFromTheCookis } from "../../../lib/utils";
+import { readUserIdFromAuthorization } from "../../../lib/utils";
 
 export default async function CreateTaskHandler(
   req: Request<{}, {}, TaskType, {}>,
@@ -13,7 +13,7 @@ export default async function CreateTaskHandler(
   const feat = "create task"; // name api
   const taskContent = req.body;
   try {
-    const userId = readUserIdFromTheCookis(req) as string;
+    const userId = readUserIdFromAuthorization(req) as string;
 
     if (!taskContent) {
       return res.status(400).json({

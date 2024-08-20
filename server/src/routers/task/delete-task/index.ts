@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { readUserIdFromTheCookis } from "../../../lib/utils";
+import { readUserIdFromAuthorization } from "../../../lib/utils";
 import {
   deteleTask,
   getUpdateProjectDueTime,
@@ -9,7 +9,7 @@ export default async function DeleteTaskHandler(req: Request, res: Response) {
   const feat = "delete task";
   const taskContent = req.params;
   try {
-    const userId = readUserIdFromTheCookis(req) as string;
+    const userId = readUserIdFromAuthorization(req) as string;
 
     if (!taskContent) {
       return res.status(400).json({

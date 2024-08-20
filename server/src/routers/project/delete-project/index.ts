@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { deteleProject } from "../../../lib/firebase-func";
 import {
   checkUIDAndProjectExists,
-  readUserIdFromTheCookis,
+  readUserIdFromAuthorization,
 } from "../../../lib/utils";
 
 export default async function DeleteProjectHandler(
@@ -11,7 +11,7 @@ export default async function DeleteProjectHandler(
 ) {
   const feat = "delete project";
   try {
-    const userId = readUserIdFromTheCookis(req) as string;
+    const userId = readUserIdFromAuthorization(req) as string;
     const { projectId } = req.params;
     if (!projectId) {
       return res.status(404).json({

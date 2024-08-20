@@ -43,7 +43,7 @@ export default async function RegisterRouteHandler(
   };
 
   // send auth cookie at frontend code when call api at server side in nextjs
-  await sendUserSession(res, token);
+  // await sendUserSession(res, token);
 
   const defaultMsgCon = {
     from: {

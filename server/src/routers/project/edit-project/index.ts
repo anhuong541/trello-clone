@@ -3,7 +3,7 @@ import { createOrSetProject } from "../../../lib/firebase-func";
 import { ProjectType } from "../../../types";
 import {
   checkUIDAndProjectExists,
-  readUserIdFromTheCookis,
+  readUserIdFromAuthorization,
 } from "../../../lib/utils";
 
 export default async function EditProjectHandler(
@@ -14,7 +14,7 @@ export default async function EditProjectHandler(
   let projectContent = req.body;
 
   try {
-    const userId = readUserIdFromTheCookis(req) as string;
+    const userId = readUserIdFromAuthorization(req) as string;
 
     if (!projectContent) {
       return res.status(404).json({

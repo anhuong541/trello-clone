@@ -37,8 +37,8 @@ export const checkUIDAndProjectExists = async (
   return null;
 };
 
-export const readUserIdFromTheCookis = (req: Request) => {
-  const token = req?.cookies.user_session ?? ""; // send at the client
+export const readUserIdFromAuthorization = (req: Request) => {
+  const token = req?.headers.authorization.split(" ")[1] ?? ""; // send at the client
   const { email } = jwt.verify(token, config.jwtSecret) as { email: string };
   return generateUidByString(email);
 };

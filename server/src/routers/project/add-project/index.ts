@@ -3,7 +3,10 @@ import {
   checkEmailUIDExists,
   createOrSetProject,
 } from "../../../lib/firebase-func";
-import { generateNewUid, readUserIdFromTheCookis } from "../../../lib/utils";
+import {
+  generateNewUid,
+  readUserIdFromAuthorization,
+} from "../../../lib/utils";
 import { ProjectType } from "../../../types";
 
 export default async function AddProjectHandler(
@@ -13,7 +16,7 @@ export default async function AddProjectHandler(
   const feat = "add project";
   const projectContent = req.body;
   try {
-    const userId = readUserIdFromTheCookis(req) as string;
+    const userId = readUserIdFromAuthorization(req) as string;
 
     if (!projectContent) {
       return res.status(500).json({

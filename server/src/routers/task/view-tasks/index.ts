@@ -3,7 +3,7 @@ import {
   checkProjectExists,
   viewTasksProject,
 } from "../../../lib/firebase-func";
-import { readUserIdFromTheCookis } from "../../../lib/utils";
+import { readUserIdFromAuthorization } from "../../../lib/utils";
 
 export default async function ViewTasksHandler(
   req: Request<{ projectId: string }>,
@@ -11,7 +11,7 @@ export default async function ViewTasksHandler(
 ) {
   const feat = "view all tasks"; // name api
   try {
-    const userId = readUserIdFromTheCookis(req) as string;
+    const userId = readUserIdFromAuthorization(req) as string;
     const { projectId } = req.params;
     if (!projectId) {
       return res.status(404).json({
