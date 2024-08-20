@@ -52,7 +52,7 @@ export default async function RegisterRouteHandler(
     to: [email],
     subject: "Email active account Trello",
     text: `This is an active email`,
-    html: `<div>Please activate your account by clicking the link: <a href="${"http://localhost:3456"}/user/${email}/${activationHash}">${"http://localhost:3000"}/user/${email}/${activationHash}</a></div>`,
+    html: `<div>Please activate your account by clicking the link: <a href="${config.webClient}/user/${email}/${activationHash}">Active account</div>`,
   };
 
   await sendMail(defaultMsgCon);

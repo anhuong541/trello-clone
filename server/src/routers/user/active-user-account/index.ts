@@ -6,6 +6,7 @@ import {
 } from "../../../lib/firebase-func";
 import { generateUidByString } from "../../../lib/utils";
 import { DataRegister } from "./../../../types/firebase";
+import config from "./../../../config";
 
 export default async function ActiveUserAccountHandler(
   req: Request<{ email: string; hash: string }, {}, {}, {}>,
@@ -17,7 +18,7 @@ export default async function ActiveUserAccountHandler(
   const data = await getUserDataById(userId);
 
   if (data?.isActive) {
-    return res.redirect("http://localhost:3000/project");
+    return res.redirect(`${config.webClient}/project`);
   }
 
   if (data?.activationHash !== hash) {
@@ -36,5 +37,5 @@ export default async function ActiveUserAccountHandler(
   };
 
   await createNewUser(userId, removeHashData); // update to remove hash active
-  return res.redirect("http://localhost:3000/project");
+  return res.redirect(`${config.webClient}/project`);
 }

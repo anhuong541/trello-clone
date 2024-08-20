@@ -16,4 +16,6 @@ export default {
   jwtSecret: process.env.JWT_SECRET!,
   emailApp: process.env.APP_EMAIL,
   passApp: process.env.APP_PASS,
+  webClient: process.env.WEB_CLIENT_URL,
+  webServer: process.env.WEB_SERVER_URL,
 };
