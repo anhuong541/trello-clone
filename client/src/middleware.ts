@@ -50,9 +50,10 @@ export async function middleware(request: NextRequest) {
       const absoluteURL = new URL("/login", request.nextUrl.origin);
       return NextResponse.redirect(absoluteURL.toString());
     }
+
     if (
       checkToken?.status === 200 &&
-      routesBanWhenUserSignin.includes(request.nextUrl.pathname)
+      routesBanWhenUserSignin.includes(firstParam)
     ) {
       console.log("go go go!!!");
       const absoluteURL = new URL(HOME_ROUTE, request.nextUrl.origin);

@@ -60,7 +60,6 @@ export default function LoginPage() {
     if (!submitErr && res?.status === 200) {
       createSession(res?.data.token);
       localStorage.setItem("token", res?.data.token);
-      router.push("/project");
       setEmailErr(false);
       reset();
     }

@@ -10,7 +10,7 @@ export const server = axios.create({
 
 server.interceptors.request.use(
   (config) => {
-    const authToken = localStorage.getItem("token") ?? null;
+    const authToken = localStorage && (localStorage.getItem("token") ?? null);
     if (authToken) {
       config.headers["Authorization"] = `Bearer ${authToken}`;
     }
