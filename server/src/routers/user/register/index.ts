@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import { checkEmailUIDExists, createNewUser } from "../../../lib/firebase-func";
-import { sendUserSession } from "./../../../lib/auth-action";
 import { generateUidByString } from "../../../lib/utils";
 import { sendMail } from "./../../../lib/email-action";
 import config from "../../../config";

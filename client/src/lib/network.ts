@@ -7,3 +7,17 @@ export const server = axios.create({
       : "http://localhost:3456/",
   withCredentials: true,
 });
+
+server.interceptors.request.use(
+  (config) => {
+    const authToken = localStorage.getItem("token") ?? null;
+    if (authToken) {
+      config.headers["Authorization"] = `Bearer ${authToken}`;
+    }
+    return config;
+  },
+  (error) => {
+    // Do something with request error
+    return Promise.reject(error);
+  }
+);

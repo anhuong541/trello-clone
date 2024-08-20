@@ -6,7 +6,7 @@ import { HOME_ROUTE, ROOT_ROUTE, SESSION_COOKIE_NAME } from "@/constants";
 
 export async function createSession(userId: string) {
   cookies().set(SESSION_COOKIE_NAME, userId, {
-    httpOnly: true,
+    // httpOnly: true,
     // secure: process.env.NODE_ENV === "production",
     maxAge: 60 * 60 * 24, // One day
     path: "/",

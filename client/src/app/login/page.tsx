@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import { capitalizeFirstLetter } from "@/lib/utils";
 import { onUserLogin } from "@/actions/query-actions";
+import { createSession } from "@/actions/auth-action";
 
 type LoginInput = {
   emailLogin: string;
@@ -57,6 +58,8 @@ export default function LoginPage() {
       });
 
     if (!submitErr && res?.status === 200) {
+      createSession(res?.data.token);
+      localStorage.setItem("token", res?.data.token);
       router.push("/project");
       setEmailErr(false);
       reset();

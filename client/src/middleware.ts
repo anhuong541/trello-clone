@@ -1,18 +1,19 @@
 import { HOME_ROUTE, ROOT_ROUTE, SESSION_COOKIE_NAME } from "./constants";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { server } from "./lib/network";
 import { removeSession } from "./actions/auth-action";
+import axios from "axios";
 
 const protectedRoutes = [HOME_ROUTE];
-const routesBanWhenUserSignin = ["/login", "/register", ROOT_ROUTE];
+const routesBanWhenUserSignin = ["/login", "/register", "/active", ROOT_ROUTE];
 
 export const checkJwtExpire = async (token: string) => {
   try {
-    return await server.get("/user/token-verify", {
+    return await axios.get(`http://localhost:3456/user/token-verify`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      withCredentials: true,
     });
   } catch (error) {
     console.log("check jwt expire error");
@@ -23,14 +24,12 @@ export const checkJwtExpire = async (token: string) => {
 export async function middleware(request: NextRequest) {
   const tokenSession = request.cookies.get(SESSION_COOKIE_NAME)?.value || null;
   const firstParam = "/" + request.nextUrl.pathname.split("/")[1];
-  console.log("run middleware!", tokenSession);
+  console.log("start middleware");
   if (tokenSession) {
     console.log("middleware! is running");
     const checkToken = (await checkJwtExpire(tokenSession)) as any;
-    // const checkToken: any = null;
-    if (!checkToken) {
-      return;
-    }
+
+    console.log("check!!!", checkToken?.status, request.nextUrl.pathname);
 
     if (
       checkToken?.response?.status === 403 &&
@@ -55,10 +54,12 @@ export async function middleware(request: NextRequest) {
       checkToken?.status === 200 &&
       routesBanWhenUserSignin.includes(request.nextUrl.pathname)
     ) {
+      console.log("go go go!!!");
       const absoluteURL = new URL(HOME_ROUTE, request.nextUrl.origin);
       return NextResponse.redirect(absoluteURL.toString());
     }
   } else if (protectedRoutes.includes(firstParam)) {
+    console.log("token is null", tokenSession);
     const absoluteURL = new URL("/login", request.nextUrl.origin);
     return NextResponse.redirect(absoluteURL.toString());
   }

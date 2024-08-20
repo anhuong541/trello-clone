@@ -17,7 +17,8 @@ export const authorizationMidleware = async (
   next: NextFunction
 ) => {
   const feat = "check authorization";
-  const token = req?.cookies.user_session ?? "";
+  // const token = req?.cookies.user_session ?? ""; // cookie
+  const token = req?.headers.authorization.split(" ")[1] ?? ""; // authorization
   try {
     jwt.verify(token, config.jwtSecret);
     return next();

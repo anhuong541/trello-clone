@@ -7,7 +7,6 @@ import {
   getUserDataById,
 } from "../../../lib/firebase-func";
 import config from "../../../config";
-import { sendUserSession } from "./../../../lib/auth-action";
 
 const checkPasswordIsCorrect = async (userId: string, password: string) => {
   const dataUser = await getUserDataById(userId);

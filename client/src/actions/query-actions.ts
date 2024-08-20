@@ -7,6 +7,7 @@ import {
   RegisterInputType,
   TaskInput,
 } from "@/types/query-types";
+import axios from "axios";
 
 export const onUserRegister = async (dataInput: RegisterInputType) => {
   return await server.post("/user/register", dataInput);
@@ -27,8 +28,9 @@ export const onUserLogout = async () => {
 export const handleUserInfo = async (cookie: ReadonlyRequestCookies) => {
   const token = cookie.get("user_session")?.value;
   try {
-    return await server
-      .get("/user", {
+    return await axios
+      .get(`http://localhost:3456/user`, {
+        withCredentials: true,
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => res.data);
