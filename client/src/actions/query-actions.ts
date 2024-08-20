@@ -29,7 +29,7 @@ export const handleUserInfo = async (cookie: ReadonlyRequestCookies) => {
   const token = cookie.get("user_session")?.value;
   try {
     return await axios
-      .get(`http://localhost:3456/user`, {
+      .get(`https://trello-clone-backend-lake.vercel.app/user`, {
         withCredentials: true,
         headers: { Authorization: `Bearer ${token}` },
       })

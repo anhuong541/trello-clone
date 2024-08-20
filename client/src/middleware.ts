@@ -9,12 +9,15 @@ const routesBanWhenUserSignin = ["/login", "/register", "/active", ROOT_ROUTE];
 
 export const checkJwtExpire = async (token: string) => {
   try {
-    return await axios.get(`http://localhost:3456/user/token-verify`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      withCredentials: true,
-    });
+    return await axios.get(
+      `https://trello-clone-backend-lake.vercel.app/user/token-verify`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      }
+    );
   } catch (error) {
     console.log("check jwt expire error");
     return error;
