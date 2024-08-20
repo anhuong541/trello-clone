@@ -104,6 +104,7 @@ function AddTask({
   kanbanData: KanbanBoardType;
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [isAddingTask, setisAddingTask] = useState(false);
   const queryClient = useQueryClient();
   const { register, handleSubmit, watch, reset, setFocus } =
     useForm<TaskType>();
@@ -116,6 +117,8 @@ function AddTask({
   });
 
   const onSubmit: SubmitHandler<TaskType> = async (data) => {
+    setisAddingTask(true);
+    onClose();
     if (data.taskTitle === "") {
       toast.warning("Misisng task title");
       return;
@@ -142,8 +145,8 @@ function AddTask({
     onAddTableData({ ...dataLater });
     await addTaskAction.mutateAsync(dataAddTask);
     queryClient.refetchQueries({ queryKey: [reactQueryKeys.projectList] });
-    onClose();
     reset();
+    setisAddingTask(false);
   };
 
   useEffect(() => {
@@ -166,7 +169,7 @@ function AddTask({
         <MdAdd className="h-6 w-6 font-medium" /> Add Task
       </button>
 
-      <Modal isOpen={isOpen} onClose={modalOnClose}>
+      <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalCloseButton />
         <ModalContent>
@@ -226,7 +229,12 @@ function AddTask({
             </ModalBody>
 
             <ModalFooter>
-              <Button colorScheme="blue" mr={3} type="submit">
+              <Button
+                colorScheme="blue"
+                mr={3}
+                type="submit"
+                disabled={isAddingTask}
+              >
                 Add
               </Button>
               <Button variant="ghost" onClick={modalOnClose}>
@@ -257,7 +265,7 @@ function TaskDrableItem({ itemInput }: { itemInput: TaskItem }) {
         {itemInput.title}
       </Text>
       <div className="flex items-center gap-2" id="icon-state">
-        {itemInput?.description.length > 0 && <MdOutlineSubject />}
+        {itemInput?.description?.length > 0 && <MdOutlineSubject />}
         <div className="text-xs">{itemInput.priority}</div>
         <div className="text-xs">{itemInput.storyPoint}</div>
       </div>

@@ -4,6 +4,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import { useState } from "react";
 import Link from "next/link";
 
 import { Button } from "@/components/common/Button";
@@ -21,6 +22,7 @@ type RegisterInput = {
 
 export default function RegisterPage() {
   const router = useRouter();
+  const [onLoadingSubmit, setonLoadingSubmit] = useState(false);
   const { register, handleSubmit, watch, reset } = useForm<RegisterInput>();
 
   const registerAction = useMutation({
@@ -29,6 +31,7 @@ export default function RegisterPage() {
   });
 
   const onSubmit: SubmitHandler<RegisterInput> = async (data) => {
+    setonLoadingSubmit(true);
     if (data.passwordRegister !== data.confirmPasswordRegister) {
       toast.warning("Password is not the same with confirm");
       return;
@@ -50,10 +53,11 @@ export default function RegisterPage() {
     submitErr = false;
     if (!submitErr && res?.status === 200) {
       localStorage.setItem("token", res?.data.token);
-      createSession(res?.data.token);
+      await createSession(res?.data.token);
       router.push("/active");
       reset();
     }
+    setonLoadingSubmit(false);
   };
 
   const registerFormData = [
@@ -104,7 +108,10 @@ export default function RegisterPage() {
                 </div>
               );
             })}
-            <Button type="submit">Sign up</Button>
+
+            <Button type="submit" disabled={onLoadingSubmit}>
+              Sign up
+            </Button>
           </form>
           <Link
             href="/login"

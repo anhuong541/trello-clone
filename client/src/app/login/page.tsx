@@ -20,9 +20,9 @@ type LoginInput = {
 };
 
 export default function LoginPage() {
-  const router = useRouter();
   const [emailErr, setEmailErr] = useState(false);
   const [passwordErr, setPasswordError] = useState(false);
+  const [onLoadingSubmit, setonLoadingSubmit] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const { register, handleSubmit, watch, reset } = useForm<LoginInput>();
 
@@ -32,6 +32,7 @@ export default function LoginPage() {
   });
 
   const onSubmit: SubmitHandler<LoginInput> = async (data) => {
+    setonLoadingSubmit(true);
     if (data.emailLogin === "" || data.passwordLogin === "") {
       toast.warning("You need to fill all the input first!");
       return;
@@ -58,11 +59,12 @@ export default function LoginPage() {
       });
 
     if (!submitErr && res?.status === 200) {
-      createSession(res?.data.token);
+      await createSession(res?.data.token);
       localStorage.setItem("token", res?.data.token);
       setEmailErr(false);
       reset();
     }
+    setonLoadingSubmit(false);
   };
 
   return (
@@ -98,7 +100,9 @@ export default function LoginPage() {
               )}
             </label>
 
-            <Button type="submit">Sign in</Button>
+            <Button type="submit" disabled={onLoadingSubmit}>
+              Sign in
+            </Button>
           </form>
           <Link
             href="/register"
