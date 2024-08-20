@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../../../src/routers/user/logout/index.ts"],"names":[],"mappings":";;AAEA,qCAIC;;AAJD,SAA8B,kBAAkB,CAAC,GAAY,EAAE,GAAa;;QAC1E,MAAM,IAAI,GAAG,QAAQ,CAAC;QACtB,GAAG,CAAC,WAAW,CAAC,cAAc,CAAC,CAAC;QAChC,OAAO,GAAG,CAAC,MAAM,CAAC,GAAG,CAAC,CAAC,IAAI,CAAC,EAAE,MAAM,EAAE,SAAS,EAAE,IAAI,EAAE,CAAC,CAAC;IAC3D,CAAC;CAAA"}
