@@ -1,0 +1,10 @@
+package-lock.json
+node_modules
+# dist
+
+# env
+.env
+
+# db key
+FirebaseAccountSecretKey.json
+.vercel
