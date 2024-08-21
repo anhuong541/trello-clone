@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { MdLogout } from "react-icons/md";
-import { useRouter } from "next/navigation";
 import * as Popover from "@radix-ui/react-popover";
 import { useMutation } from "@tanstack/react-query";
 
@@ -11,7 +10,6 @@ import { onUserLogout } from "@/actions/query-actions";
 import { removeSession } from "@/actions/auth-action";
 
 export default function Header({ userInfo }: { userInfo: any }) {
-  const route = useRouter();
   const logoutAction = useMutation({
     mutationKey: [reactQueryKeys.logout],
     mutationFn: onUserLogout,
@@ -20,7 +18,6 @@ export default function Header({ userInfo }: { userInfo: any }) {
   const handleLogout = async () => {
     await removeSession();
     await logoutAction.mutateAsync();
-    route.push("/login");
   };
 
   return (
@@ -31,7 +28,7 @@ export default function Header({ userInfo }: { userInfo: any }) {
       <Popover.Root>
         <Popover.Trigger className="flex justify-end items-center md:gap-4 gap-2 relative hover:opacity-70">
           <p className="font-bold hidden md:block">
-            {userInfo?.data?.username ?? ""}
+            {userInfo?.username ?? ""}
           </p>
           <Image
             height={40}
